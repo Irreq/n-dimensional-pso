@@ -1,6 +1,6 @@
 import numpy as np
 
-from pso import PSO
+from pso import optimize
 
 # Famous computer optimization benchmark algorithm
 def ackley(x, y, a=20, b=0.2, c=2*np.pi):
@@ -33,8 +33,16 @@ if __name__ == "__main__":
     # It is suggested to run several optimizations to get a mean.
     # The PSO optimization is prone to noticable fluctuations in the results
     # due to its pseudo-random nature
-    pso = PSO(agents=N)
+    # pso = PSO(agents=N)
 
-    pso.optimize(sin, 'minimum', domain=SEARCH_SPACE)
+    optimizer = optimize(sin, 'minimum', domain=SEARCH_SPACE)
 
-    print(pso.swarm.extreme, pso.swarm.best)
+    # print(pso.swarm.extreme, pso.swarm.best)
+
+    print(optimizer.swarm.best[-1]/np.pi)
+
+    optimizer = PSO(particles=N)
+
+    optizer.optimize(cos, 'max', domain=[0.8, 3*np.pi])
+
+    value, coordinates = optimizer.best

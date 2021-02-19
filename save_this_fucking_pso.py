@@ -185,7 +185,7 @@ class Swarm():
 
 class PSO():
 
-    def __init__(self, agents=None, dims=None, iters=100, convergence=0.001, vmax=0.1, personal=2.0, social=2.0, global_best=0.0, initialseed=None):
+    def __init__(self, *, agents: int(), dims=None, iters=100, convergence=0.001, vmax=0.1, personal=2.0, social=2.0, global_best=0.0, initialseed=None):
 
 
         """
@@ -245,9 +245,6 @@ class PSO():
         for _ in range(1000):
             random()
 
-        if agents == None:
-            agents = 25
-
         self.agents = agents
         self.dims = dims
 
@@ -262,7 +259,6 @@ class PSO():
 
         self.iterations = 0
         self.running = True
-        self.solution = None # ask for this one
 
         self.function = None
         self.extrema = None
@@ -271,7 +267,7 @@ class PSO():
 
 
 
-    def start(self, function, extrema, *, domain: list()):
+    def optimize(self, function, extrema, *, domain: list()):
 
         """
         Initializing function for optimization.
@@ -280,7 +276,7 @@ class PSO():
 
         ARGUMENTS:
             - function          function() The function to optimize.
-                                Eg, 'sin'
+                                Eg, 'ackley'
 
             - extrema           string() What to look for. Either 'maximum'
                                 or 'minimum'.
@@ -316,7 +312,7 @@ class PSO():
         while self.iterations < self.iters and self.running:
             self.next()
 
-        return self
+        return self.swarm.extreme, self.swarm.best
 
 
     def movement(self, particle):
@@ -392,10 +388,3 @@ class PSO():
             self.running = False
 
         self.iterations += 1
-
-
-def optimize(function, extrema, *, domain: list(), optimizer=PSO()):
-
-    optimizer.start(function, extrema, domain=domain)
-
-    return optimizer

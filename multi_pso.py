@@ -185,7 +185,14 @@ class Swarm():
 
 class PSO():
 
-    def __init__(self, agents=None, dims=None, iters=100, convergence=0.001, vmax=0.1, personal=2.0, social=2.0, global_best=0.0, initialseed=None):
+    key_map = {
+
+    'max' : ['maximum',],
+    'min' : ['minimum',],
+
+    }
+
+    def __init__(self, *, agents: int(), dims=None, iters=100, convergence=0.001, vmax=0.1, personal=2.0, social=2.0, global_best=0.0, initialseed=None):
 
 
         """
@@ -245,9 +252,6 @@ class PSO():
         for _ in range(1000):
             random()
 
-        if agents == None:
-            agents = 25
-
         self.agents = agents
         self.dims = dims
 
@@ -262,7 +266,6 @@ class PSO():
 
         self.iterations = 0
         self.running = True
-        self.solution = None # ask for this one
 
         self.function = None
         self.extrema = None
@@ -271,7 +274,7 @@ class PSO():
 
 
 
-    def start(self, function, extrema, *, domain: list()):
+    def optimize(self, function, extrema, *, domain: list()):
 
         """
         Initializing function for optimization.
@@ -280,7 +283,7 @@ class PSO():
 
         ARGUMENTS:
             - function          function() The function to optimize.
-                                Eg, 'sin'
+                                Eg, 'ackley'
 
             - extrema           string() What to look for. Either 'maximum'
                                 or 'minimum'.
@@ -293,6 +296,7 @@ class PSO():
                                 second, the upper boundary. Eg, [-2, 4]
 
         TODO:                   Clean up code.
+                                Fix multiple domains
 
         """
 
@@ -300,7 +304,14 @@ class PSO():
         self.avgbest = []
 
         self.running = True
-        assert extrema in ['maximum', 'minimum']
+
+        self.extrema = extrema
+
+        assert self.extrema in self.key_map.keys() or self.key_map.values(), f"Must be: {self.key_map}"
+
+        if self.extrema in self.key_map.values():
+            self.extrema = self.key_map[self.extrema][0]
+
 
         if self.dims == None:
             self.dims = function.__code__.co_argcount - len(function.__defaults__) if function.__defaults__ != None else function.__code__.co_argcount
@@ -308,15 +319,16 @@ class PSO():
         assert 0 < self.dims and type(self.dims) == int, "You must use integer dimensions"
 
         self.function = function
-        self.extrema = extrema
+
         self.domain = domain
+        assert len(self.domain) == 2, "At the moment only a single domain can be optimized during an optimization"
         # Initialize swarm
         self.swarm = Swarm(self.function, self.agents, self.vmax, self.dims, self.domain, self.extrema)
 
         while self.iterations < self.iters and self.running:
             self.next()
 
-        return self
+        return self.swarm.extreme, self.swarm.best
 
 
     def movement(self, particle):
@@ -392,10 +404,3 @@ class PSO():
             self.running = False
 
         self.iterations += 1
-
-
-def optimize(function, extrema, *, domain: list(), optimizer=PSO()):
-
-    optimizer.start(function, extrema, domain=domain)
-
-    return optimizer
