@@ -43,6 +43,6 @@ import pso
 # The function to optimize
 def foo(a, b, c, d, e):
   return a**b + c/2 - d/e
-# Initiate the pso with 25 particles for 80 iterations
+# Initiate the pso with 35 particles for 80 iterations
 best, coordinates = pso.optimize(foo, target=4.3, domain=[-2.3, 8], n=35, iters=80)
 ```
