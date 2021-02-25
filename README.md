@@ -17,7 +17,7 @@ In computational science, particle swarm optimization (PSO) is a computational m
 ### Optimizing a sinusoidal function
 
 Suppose we want to find the minima of `f(x) = sin(x)` in the domain: `π ≤ x ≤ 2π`.
-The known solution is `x = 3π/2` where `sin(3π/2) = -1`
+The current known solution is `x = 3π/2` where `sin(3π/2) = -1`
 Using particle swarm optimization:
 
 ```python
@@ -36,15 +36,13 @@ During this run, `best` is `-0.99999`, which is very close to `-1`.
 
 ### Optimizing a 5-dimensional function
 
-Suppose we want to find the what combination values that comes closest to `4.3` of `f(x) = a^b+c/2-d/e` in the domain `-2.3 ≤ x ≤ 8` using `35` particles for `80` iterations with particle swarm optimization:
+Suppose we want to find the what combination values that comes closest to `4.3` of `f(a,b,c,d,e) = a^b+c/2-d/e` in the domain `-2.3 ≤ a,b,c,d,e ≤ 8` using `35` particles for `80` iterations with particle swarm optimization:
 
 ```python
-from pso import optimize
+import pso
 # The function to optimize
 def foo(a, b, c, d, e):
   return a**b + c/2 - d/e
-# Initiate the PSO with 25 particles for 80 iterations
-optimizer = PSO(n_particles=25, iters=80)
 # Initiate the pso with 25 particles for 80 iterations
-best, coordinates = optimizer.optimize(foo, target=4.3, domain=[-2.3, 8], n=35, iters=80)
+best, coordinates = pso.optimize(foo, target=4.3, domain=[-2.3, 8], n=35, iters=80)
 ```
