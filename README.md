@@ -14,6 +14,20 @@ In computational science, particle swarm optimization (PSO) is a computational m
 
 ## Usage
 
+### Finding the square root of 2
+
+Suppose we want to find `√2`. This could be done by finding the what value `x` is if the the function `power_2` returns `2` for `x`. Since we know the real answer is `1<x<2` we can specify the search domain for better resolution. Using particle swarm optimization:
+
+```python
+import pso
+# The function to optimize
+def power_2(x):
+  return x**2
+# Auto optimization, with as few hyper-parameters as possible
+best, coordinates = pso.optimize(power_2, target=2, domain=[1, 2])
+# [1.414211357351861] 1.9999937632629934
+```
+
 ### Optimizing a sinusoidal function
 
 Suppose we want to find the minima of `f(x) = sin(x)` in the domain: `π ≤ x ≤ 2π`.
@@ -34,7 +48,7 @@ During this run, `best` is `-0.99999`, which is very close to `-1`.
 `coordinates` is returned as the list: `[4.7123]` which is close to `3π/2`
 
 
-### Optimizing a 5-dimensional function
+### Optimizing a multivariate 5-dimensional function
 
 Suppose we want to find the what combination values that comes closest to `4.3` of `f(a,b,c,d,e) = a^b+c/2-d/e` in the chosen domain `-2.3 ≤ a,b,c,d,e ≤ 8` using `35` particles for `80` iterations.
 Using particle swarm optimization:
