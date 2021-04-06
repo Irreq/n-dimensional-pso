@@ -16,7 +16,7 @@ In computational science, particle swarm optimization (PSO) is a computational m
 
 ### Finding the square root of 2
 
-Suppose we want to find `√2`. This could be done by finding the what value `x` is if the the function `power_2` returns `2` for `x`. Since we know the real answer is `1<x<2` we can specify the search domain for better resolution. Using particle swarm optimization:
+Suppose we want to find `√2`. This could be done by finding what value `x` is when the function `power_2` (also known as `x^2`) returns `2` for `x`. Since we know the real answer is `1<x<2` we can specify the search domain for increased performance. Using particle swarm optimization:
 
 ```python
 import pso
